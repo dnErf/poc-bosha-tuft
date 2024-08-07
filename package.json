@@ -1,0 +1,18 @@
+{
+  "name": "bosha-tuft",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "tailwatch": "npx tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app.min.css --watch",
+    "tailz": "npx tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app.min.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "flowbite": "^2.5.1",
+    "tailwindcss": "^3.4.7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

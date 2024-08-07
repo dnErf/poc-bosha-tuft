@@ -1,0 +1,28 @@
+# build output
+bin/
+obj/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# app variables
+.env
+.env.production
+appsettings.Development.json
+appsettings.Staging.json
+
+# macOS-specific files
+.DS_Store
+
+# ide setting folder
+.github/
+.config/
+.idea/
+.vs/
+.@/
