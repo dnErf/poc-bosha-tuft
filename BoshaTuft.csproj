@@ -10,13 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\" />
     <Content Remove="package.json" />
     <Content Remove="package-lock.json" />
     <Content Remove="appsettings.Development.json" />
+    <Content Remove="wwwroot\js\etc.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\etc.js" />
     <Content Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" Include="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\etc.js" />
   </ItemGroup>
 
   <ItemGroup>

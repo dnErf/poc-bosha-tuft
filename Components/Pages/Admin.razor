@@ -1,0 +1,231 @@
+﻿@page "/admin"
+@using Entity
+@using Services
+@inject IJSRuntime js
+
+<PageTitle>Admin</PageTitle>
+
+@if (_profile is null)
+{
+	<h1>profile is null</h1>
+}
+
+@if (_profile is not null)
+{
+	<div class="md:w-1/3">
+		<div class="">
+			<section class="flex flex-col items-center py-2">
+				@* main pic *@
+				<img src="pic/sample_1.jpg" class="rounded-xl py-2" height="100" width="100">
+				<h1 class="text-2xl">
+					@if (editName)
+					{
+						<input type="text" value="@_profile.Name" @onchange="HandleChangeName" />
+					}
+					else
+					{
+						@_profile.Name
+					}
+					<span class="icon-[bx--pencil] text-sm cursor-pointer" @onclick="@(() => editName = !editName)" />
+				</h1>
+
+			</section>
+			<section class="p-2">
+				@* description / about *@
+				<div class="inline-flex justify-end w-full">
+					<span class="icon-[bx--pencil] text-sm cursor-pointer" @onclick="@(() => editAbout = !editAbout)" />
+				</div>
+				<article class="text-sm text-justify">
+					@if (editAbout)
+					{
+						<textarea value="@_profile.About" class="text-sm w-full resize-none" rows="3"></textarea>
+					}
+					else
+					{
+						@_profile.About
+					}
+				</article>
+			</section>
+		</div>
+		<section class="flex justify-center gap-2 py-2">
+			<img src="pic/spotify_1.jpg" class="cursor-pointer" height="30" width="30" />
+			<img src="pic/ex_1.jpg" class="cursor-pointer" height="30" width="30" />
+			<span @onclick="EditSocialMediaLinks" class="icon-[bx--pencil] text-sm cursor-pointer" />
+		</section>
+		<section>
+			@* highlights / story / their ads or promo
+		<a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+		<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="pic/sample_1.jpg" alt="sample" />
+		<div class="flex flex-col justify-between p-4 leading-normal">
+		<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+		<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+		</div>
+		</a>
+		*@
+		</section>
+		
+		<section class="flex flex-col gap-2 p-4 w-full">
+			@* links if there is any *@
+			<div class="flex justify-end">
+				<span @onclick="EditOtherLinks" class=" icon-[bx--pencil] text-sm cursor-pointer" />
+			</div>
+			
+			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
+				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
+				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+					about this
+				</p>
+			</a>
+
+			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
+				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
+				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+					about this
+				</p>
+			</a>
+
+			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
+				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
+				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+					about this
+				</p>
+			</a>
+			
+		</section>
+		<section>
+			@* a *@
+		</section>
+		<section>
+			@* v or s *@
+		</section>
+		@**@
+		
+		<section class="text-center py-6">
+			<button
+				class="btn btn-dark" 
+				type="button"
+			>
+				Save
+			</button>
+		</section>
+
+		<!-- drawer component  -->
+		<div id="drawer-social" aria-labelledby="drawer-contact-label" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1">
+			<h5 id="drawer-label" class="inline-flex items-center mb-6 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
+				Social Links
+			</h5>
+			<!-- data-drawer-hide="drawer-contact" aria-controls="drawer-contact" -->
+			<button 
+				type="button"
+				class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+			>
+				<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+				</svg>
+				<span class="sr-only">Close menu</span>
+			</button>
+			<form class="mb-6">
+				<div class="mb-6">
+					<label for="exx" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						X's'
+					</label>
+					<input type="text" id="exx" class="input-txt" placeholder="https://" required />
+				</div>
+				<div class="mb-6">
+					<label for="facebook" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						Facebook
+					</label>
+					<input type="text" id="facebook" class="input-txt" placeholder="https://" required />
+				</div>
+				<button @onclick="HideSocialMediaLinks" class="btn btn-dark w-full">
+					Ok
+				</button>
+			</form>
+		</div>
+
+		<!-- drawer component  -->
+		<div id="drawer-links" aria-labelledby="drawer-contact-label" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1">
+			<h5 id="drawer-label" class="inline-flex items-center mb-6 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
+				Other Links
+			</h5>
+			<!-- data-drawer-hide="drawer-contact" aria-controls="drawer-contact" -->
+			<button type="button"
+					class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+				<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+				</svg>
+				<span class="sr-only">Close menu</span>
+			</button>
+			<div class="mb-6">
+				<div class="mb-6">
+					<label for="lnk1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						Link 1
+					</label>
+					<input type="text" id="lnk1" class="input-txt" placeholder="https://" required />
+				</div>
+				<div class="mb-6">
+					<label for="lnk2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						Link 2
+					</label>
+					<input type="text" id="lnk2" class="input-txt" placeholder="https://" required />
+				</div>
+				<div class="mb-6">
+					<label for="lnk3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						Link 2
+					</label>
+					<input type="text" id="lnk3" class="input-txt" placeholder="https://" required />
+				</div>
+				<button @onclick="HideOtherLinks" class="btn btn-dark w-full block">
+					Ok
+				</button>
+			</div>
+		</div>
+		@**@
+	</div>
+}
+
+<script src="/js/etc.js"></script>
+
+@code {
+	private Profile? _profile { get; set; }
+
+	bool editName = false;
+	bool editAbout = false;
+
+	protected override void OnInitialized()
+	{
+		var svc = new ProfileSvc();
+		svc.TestData();
+
+		_profile = svc._profile;
+
+		base.OnInitialized();
+	}
+
+	async Task EditSocialMediaLinks()
+	{
+		await js.InvokeVoidAsync("editSocialMediaLinks.show");
+	}
+
+	async Task HideSocialMediaLinks()
+	{
+		await js.InvokeVoidAsync("editSocialMediaLinks.hide");
+	}
+
+	async Task EditOtherLinks()
+	{
+		await js.InvokeVoidAsync("editOtherLinks.show");
+	}
+
+	async Task HideOtherLinks()
+	{
+		await js.InvokeVoidAsync("editOtherLinks.hide");
+	}
+
+	void HandleChangeName(ChangeEventArgs e)
+	{
+		_profile!.Name = e?.Value?.ToString() ?? "";
+	}
+}
+
+@* - - - *@
