@@ -8,5 +8,6 @@ public sealed class Profile
     public string Pic { get; set; } = "";
     public string Alt { get; set; } = "";
     public string DatedAt { get; set; } = DateTime.UtcNow.ToString("s");
-    public List<Anchor> Anchors { get; set; } = new List<Anchor>();
+    public List<Anchor> SocialAnchors { get; set; } = new List<Anchor>();
+	public List<Anchor> OtherAnchors { get; set; } = new List<Anchor>();
 }

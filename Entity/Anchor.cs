@@ -2,7 +2,7 @@
 
 public sealed class Anchor
 {
-    private string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string Description { get; set; } = "";
     public required string LinkTo { get; set; } = "";
     public string Pic { get; set; } = "";

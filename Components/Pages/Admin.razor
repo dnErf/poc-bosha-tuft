@@ -38,7 +38,7 @@
 				<article class="text-sm text-justify">
 					@if (editAbout)
 					{
-						<textarea value="@_profile.About" class="text-sm w-full resize-none" rows="3"></textarea>
+						<textarea value="@_profile.About" class="text-sm w-full resize-none" rows="3" @onchange="HandleChangeAbout"></textarea>
 					}
 					else
 					{
@@ -48,8 +48,12 @@
 			</section>
 		</div>
 		<section class="flex justify-center gap-2 py-2">
-			<img src="pic/spotify_1.jpg" class="cursor-pointer" height="30" width="30" />
-			<img src="pic/ex_1.jpg" class="cursor-pointer" height="30" width="30" />
+			@foreach (var sa in _profile.SocialAnchors)
+			{
+				<a href="@sa.LinkTo">
+					<img src="@sa.Pic" alt="@sa.Alt" class="cursor-pointer" height="30" width="30" />
+				</a>
+			}
 			<span @onclick="EditSocialMediaLinks" class="icon-[bx--pencil] text-sm cursor-pointer" />
 		</section>
 		<section>
@@ -69,28 +73,16 @@
 			<div class="flex justify-end">
 				<span @onclick="EditOtherLinks" class=" icon-[bx--pencil] text-sm cursor-pointer" />
 			</div>
-			
-			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
-				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
-				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
-					about this
-				</p>
-			</a>
 
-			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
-				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
-				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
-					about this
-				</p>
-			</a>
-
-			<a href="#" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
-				<img class="object-cover max-h-16" src="pic/sample_1.jpg" alt="sample" />
-				<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
-					about this
-				</p>
-			</a>
-			
+			@foreach (var oa in _profile.OtherAnchors)
+			{
+				<a href="@oa.LinkTo" class="flex items-center border border-gray-200 rounded-lg shadow h-16 gap-4">
+					<img class="object-cover max-h-16" src="@oa.Pic" alt="@oa.Alt" />
+					<p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+						@oa.Description
+					</p>
+				</a>
+			}
 		</section>
 		<section>
 			@* a *@
@@ -124,23 +116,20 @@
 				</svg>
 				<span class="sr-only">Close menu</span>
 			</button>
-			<form class="mb-6">
-				<div class="mb-6">
-					<label for="exx" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-						X's'
-					</label>
-					<input type="text" id="exx" class="input-txt" placeholder="https://" required />
-				</div>
-				<div class="mb-6">
-					<label for="facebook" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-						Facebook
-					</label>
-					<input type="text" id="facebook" class="input-txt" placeholder="https://" required />
-				</div>
+			<div class="mb-6">
+				@foreach (var sa in _profile.SocialAnchors)
+				{
+					<div class="mb-6">
+						<label for="exx" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+							@sa.Description
+						</label>
+						<input type="text" id="exx" class="input-txt" placeholder="https://" value="@sa.LinkTo" @onchange="@((arg) => SocialAnchorChangeLinkTo(sa.Id, sa.LinkTo))" required />
+					</div>
+				}
 				<button @onclick="HideSocialMediaLinks" class="btn btn-dark w-full">
 					Ok
 				</button>
-			</form>
+			</div>
 		</div>
 
 		<!-- drawer component  -->
@@ -157,24 +146,18 @@
 				<span class="sr-only">Close menu</span>
 			</button>
 			<div class="mb-6">
-				<div class="mb-6">
-					<label for="lnk1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-						Link 1
-					</label>
-					<input type="text" id="lnk1" class="input-txt" placeholder="https://" required />
-				</div>
-				<div class="mb-6">
-					<label for="lnk2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-						Link 2
-					</label>
-					<input type="text" id="lnk2" class="input-txt" placeholder="https://" required />
-				</div>
-				<div class="mb-6">
-					<label for="lnk3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-						Link 2
-					</label>
-					<input type="text" id="lnk3" class="input-txt" placeholder="https://" required />
-				</div>
+				@foreach (var oa in _profile.OtherAnchors)
+				{
+					<div class="mb-2 border-b-2">
+						<label for="lnk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+							Link 
+						</label>
+						<input type="text" id="dsc" class="input-txt mb-1" placeholder="Description" value="@oa.Description" @onchange="@((arg) => OtherAnchorChangeDescription(oa.Id, arg.Value?.ToString()))" required />
+						<input type="text" id="lnk" class="input-txt mb-1" placeholder="https://" value="@oa.LinkTo" @onchange="@((arg) => OtherAnchorChangeLinkTo(oa.Id, arg.Value?.ToString()))" required />
+						<input type="text" id="pic" class="input-txt mb-1" placeholder="https://" value="@oa.Pic" @onchange="@((arg) => OtherAnchorChangeLinkTo(oa.Id, arg.Value?.ToString()))" required />
+					</div>
+				}
+
 				<button @onclick="HideOtherLinks" class="btn btn-dark w-full block">
 					Ok
 				</button>
@@ -225,6 +208,55 @@
 	void HandleChangeName(ChangeEventArgs e)
 	{
 		_profile!.Name = e?.Value?.ToString() ?? "";
+	}
+
+	void HandleChangeAbout(ChangeEventArgs e)
+	{
+		_profile!.About = e?.Value?.ToString() ?? "";
+	}
+
+	void SocialAnchorChangeLinkTo(string id, string? v)
+	{
+		if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(v))
+		{
+			return;
+		}
+
+		var anchor = _profile?.OtherAnchors.Find(x => x.Id == id);
+		anchor!.LinkTo = v;
+	}
+
+	void OtherAnchorChangeDescription(string id, string? v)
+	{
+		if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(v))
+		{
+			return;
+		}
+
+		var anchor = _profile?.OtherAnchors.Find(x => x.Id == id);
+		anchor!.Description = v;
+	}
+
+	void OtherAnchorChangeLinkTo(string id, string? v)
+	{
+		if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(v))
+		{
+			return;
+		}
+
+		var anchor = _profile?.OtherAnchors.Find(x => x.Id == id);
+		anchor!.LinkTo = v;
+	}
+
+	void OtherAnchorChangePic(string id, string? v)
+	{
+		if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(v))
+		{
+			return;
+		}
+
+		var anchor = _profile?.OtherAnchors.Find(x => x.Id == id);
+		anchor!.Pic = v;
 	}
 }
 
