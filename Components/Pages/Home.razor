@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using Entity
-@using Services
+@inject IProfileQueries _profileQueries
 
 <PageTitle>Home</PageTitle>
 
@@ -78,16 +78,12 @@
 @code {
 	private Profile? _profile { get; set; }
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		var svc = new ProfileSvc();
-		svc.TestData();
+		_profile = await _profileQueries.GetProfileAsync();
 
-		_profile = svc._profile;
-
-		base.OnInitialized();
+		await base.OnInitializedAsync();
 	}
 }
-
 
 @* - - - *@

@@ -1,7 +1,7 @@
 ﻿@page "/admin"
 @using Entity
-@using Services
-@inject IJSRuntime js
+@inject IJSRuntime _js
+@inject IProfileQueries _profileQueries
 
 <PageTitle>Admin</PageTitle>
 
@@ -175,34 +175,31 @@
 	bool editName = false;
 	bool editAbout = false;
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		var svc = new ProfileSvc();
-		svc.TestData();
+		_profile = await _profileQueries.GetProfileAsync();
 
-		_profile = svc._profile;
-
-		base.OnInitialized();
+		await base.OnInitializedAsync();
 	}
 
 	async Task EditSocialMediaLinks()
 	{
-		await js.InvokeVoidAsync("editSocialMediaLinks.show");
+		await _js.InvokeVoidAsync("editSocialMediaLinks.show");
 	}
 
 	async Task HideSocialMediaLinks()
 	{
-		await js.InvokeVoidAsync("editSocialMediaLinks.hide");
+		await _js.InvokeVoidAsync("editSocialMediaLinks.hide");
 	}
 
 	async Task EditOtherLinks()
 	{
-		await js.InvokeVoidAsync("editOtherLinks.show");
+		await _js.InvokeVoidAsync("editOtherLinks.show");
 	}
 
 	async Task HideOtherLinks()
 	{
-		await js.InvokeVoidAsync("editOtherLinks.hide");
+		await _js.InvokeVoidAsync("editOtherLinks.hide");
 	}
 
 	void HandleChangeName(ChangeEventArgs e)
