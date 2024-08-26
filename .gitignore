@@ -1,4 +1,5 @@
 # build output
+wwwroot/etc/
 bin/
 obj/
 

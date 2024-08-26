@@ -18,15 +18,31 @@ internal class ProfileMutations : IProfileMutations
 		_ctx = ctx;
 	}
 
-	public Task UpdateProfileInfo(Profile profile)
+	public async Task UpdateProfileInfo(Profile profile)
 	{
-		var q = """
+		var updateProfile = """
+			update profiles
+			set Name = @Name, About = @About, Pic = @Pic, Alt = @Alt, DatedAt = @DatedAt
+			where Id = @Id
+		""";
 
-			""";
+		var updateSocialLinks = """
+			update anchors_social
+			set Description = @Description, LinkTo = @LinkTo, Pic = @Pic, Alt = @Alt, DatedAt = @DatedAt
+			where Id = @Id and ProfileId = @ProfileId
+		""";
+
+		var updateOtherLinks = """
+			update anchors_other
+			set Description = @Description, LinkTo = @LinkTo, Pic = @Pic, Alt = @Alt, DatedAt = @DatedAt
+			where Id = @Id and ProfileId = @ProfileId
+		""";
 
 		using var c = _ctx.CreateConnection();
-
-		return Task.CompletedTask;
+		await c.ExecuteAsync(updateProfile, profile);
+		await c.ExecuteAsync(updateSocialLinks, profile.SocialAnchors);
+		await c.ExecuteAsync(updateOtherLinks, profile.OtherAnchors);
+		await c.CloseAsync();
 	}
 
 	public async Task SaveProfileAsync(Profile profile)

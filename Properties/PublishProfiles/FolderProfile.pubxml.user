@@ -5,5 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\.x\bosha-tuft\bin\Publish\</_PublishTargetUrl>
+    <History>True|2024-08-26T15:27:59.4479958Z||;True|2024-08-24T16:09:36.2900621-07:00||;</History>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>

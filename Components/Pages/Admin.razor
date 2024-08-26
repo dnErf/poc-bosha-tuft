@@ -2,6 +2,7 @@
 @using Entity
 @inject IJSRuntime _js
 @inject IProfileQueries _profileQueries
+@inject IProfileMutations _profileMutations
 
 <PageTitle>Admin</PageTitle>
 
@@ -94,8 +95,8 @@
 		
 		<section class="text-center py-6">
 			<button
-				class="btn btn-dark" 
-				type="button"
+				class="btn btn-dark"
+				@onclick="HandleSaveProfile"
 			>
 				Save
 			</button>
@@ -254,6 +255,16 @@
 
 		var anchor = _profile?.OtherAnchors.Find(x => x.Id == id);
 		anchor!.Pic = v;
+	}
+
+	void HandleSaveProfile()
+	{
+		if (_profile is null || string.IsNullOrWhiteSpace(_profile.Id))
+		{
+			return;
+		}
+
+		_profileMutations.UpdateProfileInfo(_profile);
 	}
 }
 
